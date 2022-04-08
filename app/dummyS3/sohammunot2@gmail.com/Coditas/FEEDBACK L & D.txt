@@ -1,0 +1,17 @@
+form with fields 
+name 
+age
+email
+ratings:logic,communication,assignments,proactiveness out of 10
+track:Angular/node/react/.......
+
+filter by track, avg rating,
+
+add button will update the rating and add a new week
+
+ADMIN
+TRAINER - 
+
+need a history veiw to add rating for multiple weeks
+
+
