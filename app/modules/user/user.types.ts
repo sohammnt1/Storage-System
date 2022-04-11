@@ -26,10 +26,20 @@ export interface IUser {
 }
 
 export interface IFileData {
-  fileData: {
-    fileSize: number;
-    fileName: string;
-    fileUrl: string;
-    folderName: string;
-  };
+  fileSize: number;
+  fileName: string;
+  fileUrl: string;
+  folderName: string;
+  email: string;
+}
+
+export interface IFolder {
+  folderName: string;
+  files: [IFile];
+}
+
+export interface IFile {
+  fileName: string;
+  fileSize: number;
+  fileUrl: string;
 }

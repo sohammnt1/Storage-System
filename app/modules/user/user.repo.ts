@@ -1,5 +1,6 @@
+import { IChanges } from "../admin/admin.types";
 import userModel from "./user.schema";
-import { IUser } from "./user.types";
+import { IFileData, IUser } from "./user.types";
 
 const create = (user: IUser) => userModel.create(user);
 
@@ -28,7 +29,7 @@ const update = (updated_data: IUser) =>
     updated_data
   );
 
-const pushFile = (fileData: any) => {
+const pushFile = (fileData: IFileData) => {
   return userModel.updateOne(
     { email: fileData.email, "storage.folderName": fileData.folderName },
     {
@@ -50,17 +51,6 @@ const deleteFile = (email: string, folderName: string, fileName: string) => {
       "storage.folderName": folderName,
     },
     { $pull: { "storage.$.files": { fileName: fileName } } }
-  );
-};
-
-const pushFolder = (storageObject: any, email: string) => {
-  return userModel.findOneAndUpdate(
-    { email: email },
-    {
-      $push: {
-        storage: storageObject,
-      },
-    }
   );
 };
 
@@ -91,6 +81,17 @@ const deleteFolder = (folderName: string, email: string) => {
 const deleteOne = (email: string) =>
   userModel.updateOne({ email: email }, { deleted: "true" });
 
+const changeConfig = (changes: IChanges) =>
+  userModel.updateOne(
+    { email: changes.email },
+    {
+      $set: {
+        "config.maxNumberOfFiles": changes.requestedMaxNumberOfFiles,
+        "config.maxStorageSize": changes.requestedMaxSizeOfFiles,
+      },
+    }
+  );
+
 const displayById = (email: string) => userModel.find({ email: email });
 
 export default {
@@ -103,7 +104,7 @@ export default {
   pushFile,
   deleteFile,
   createFolder,
-  pushFolder,
+  changeConfig,
   deleteFolder,
   getbyEmail,
   deleteOne,
